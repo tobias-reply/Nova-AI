@@ -1,15 +1,14 @@
 "use client";
-
 import { Amplify } from "aws-amplify";
-import outputs from "@/amplify_outputs.json";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
+import outputs from "@/amplify_outputs.json";
 import Chat from './components/Chat';
 
+// Initialize Amplify configuration
 Amplify.configure(outputs);
 
-// Initialize Amplify configuration
-
-export default function App() {
+function App() {
   return (
     <main className="container">
       <h1>Amazon Bedrock Chat</h1>
@@ -19,3 +18,6 @@ export default function App() {
     </main>
   );
 }
+
+// Wrap with authenticator if you need authentication
+export default App;
