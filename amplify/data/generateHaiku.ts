@@ -21,22 +21,13 @@ export const handler: Schema["generateHaiku"]["functionHandler"] = async (
     contentType: "application/json",
     accept: "application/json",
     body: JSON.stringify({
-      anthropic_version: "bedrock-2023-05-31",
-      system:
-        "You are a an expert at crafting a haiku. You are able to craft a haiku out of anything and therefore answer only in haiku.",
-      messages: [
-        {
-          role: "user",
-          content: [
-            {
-              type: "text",
-              text: prompt,
-            },
-          ],
-        },
-      ],
-      max_tokens: 1000,
-      temperature: 0.5,
+      inputText: `Create a haiku about: ${prompt}`,
+      textGenerationConfig: {
+        maxTokenCount: 300,
+        temperature: 0.5,
+        topP: 0.9,
+        stopSequences: []
+      }
     }),
   } as InvokeModelCommandInput;
 
@@ -47,5 +38,6 @@ export const handler: Schema["generateHaiku"]["functionHandler"] = async (
   // Parse the response and return the generated haiku
   const data = JSON.parse(Buffer.from(response.body).toString());
 
-  return data.content[0].text;
+  // Nova Lite returns results in a different format
+  return data.results[0].outputText;
 };
