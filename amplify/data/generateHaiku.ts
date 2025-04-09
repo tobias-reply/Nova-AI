@@ -25,7 +25,6 @@ export const handler: Schema["generateHaiku"]["functionHandler"] = async (
         }
       ],
       temperature: 0.7,
-      top_p: 0.9,
       max_tokens: 100
     }),
   } as InvokeModelCommandInput;
