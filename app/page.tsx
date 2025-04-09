@@ -1,3 +1,5 @@
+'use client';  // Add this at the very top of the file
+
 import type { Schema } from '@/amplify/data/resource';
 import type { FormEvent } from 'react';
 import { useState } from 'react';
