@@ -11,21 +11,15 @@ export const handler: Schema["generateHaiku"]["functionHandler"] = async (
   event,
   context
 ) => {
-  const prompt = event.arguments.prompt;
-  
   const input = {
     modelId: "amazon.nova-lite-v1:0",
-    contentType: "application/json",
-    accept: "application/json",
     body: JSON.stringify({
       messages: [
         {
           role: "user",
-          content: `Create a haiku about: ${prompt}`
+          content: [{ text: `Create a haiku about: ${event.arguments.prompt}` }]
         }
-      ],
-      temperature: 0.7,
-      max_tokens: 100
+      ]
     }),
   } as InvokeModelCommandInput;
 
@@ -33,5 +27,5 @@ export const handler: Schema["generateHaiku"]["functionHandler"] = async (
   const response = await client.send(command);
 
   const data = JSON.parse(Buffer.from(response.body).toString());
-  return data.messages[0].content;
+  return data.output.message.content[0].text;
 };
