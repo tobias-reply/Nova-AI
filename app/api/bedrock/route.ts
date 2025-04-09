@@ -20,18 +20,19 @@ export async function POST(request: Request) {
     }
 
     const payload = {
-      modelId: "anthropic.claude-v2",
+      modelId: "amazon.nova-lite-v1:0",
       contentType: "application/json",
       accept: "application/json",
       body: JSON.stringify({
-        prompt: `\n\nHuman: ${prompt}\n\nAssistant:`,
-        max_tokens_to_sample: 300,
-        temperature: 0.7,
-        top_k: 250,
-        top_p: 1,
-        stop_sequences: ["\n\nHuman:"],
+        inputText: prompt,
+        textGenerationConfig: {
+          temperature: 0.7,
+          topP: 0.9,
+          maxTokenCount: 300,
+          stopSequences: []
+        }
       }),
-    };
+    };    
 
     const command = new InvokeModelCommand(payload);
     
@@ -46,17 +47,15 @@ export async function POST(request: Request) {
     // Convert the Uint8Array to a string
     const responseBody = new TextDecoder().decode(response.body);
     const parsedResponse = JSON.parse(responseBody);
-
-    if (!parsedResponse.completion) {
-      throw new Error('No completion in response');
+    if (!parsedResponse.results) {
+      throw new Error('No results in response');
     }
-
-    return new Response(JSON.stringify({ response: parsedResponse.completion }), {
+    return new Response(JSON.stringify({ response: parsedResponse.results[0].outputText }), {
       status: 200,
       headers: { 
         "Content-Type": "application/json",
         "Cache-Control": "no-store"
-      },
+      }
     });
   } catch (error: any) {
     console.error("Error details:", error);
