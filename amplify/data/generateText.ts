@@ -11,19 +11,41 @@ export const handler: Schema["generateText"]["functionHandler"] = async (
   event,
   context
 ) => {
-  const prompt = event.arguments.prompt;
+  const { prompt, imageData, imageFormat } = event.arguments;
+
+  const content = [];
+  
+  // Add image content if provided
+  if (imageData && imageFormat) {
+    content.push({
+      image: {
+        format: imageFormat,
+        source: { bytes: imageData }
+      }
+    });
+  }
+  
+  // Add text prompt
+  content.push({ text: prompt });
 
   const input = {
     modelId: process.env.MODEL_ID,
     contentType: "application/json",
     accept: "application/json",
     body: JSON.stringify({
+      schemaVersion: "messages-v1",
       messages: [
         {
           role: "user",
-          content: [{ text: prompt }],
+          content: content,
         },
       ],
+      inferenceConfig: {
+        maxTokens: 300,
+        topP: 0.1,
+        topK: 20,
+        temperature: 0.3
+      }
     }),
   } as InvokeModelCommandInput;
 

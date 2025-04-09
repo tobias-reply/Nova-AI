@@ -14,6 +14,8 @@ const schema = a.schema({
     .query()
     .arguments({
       prompt: a.string().required(),
+      imageData: a.string(),
+      imageFormat: a.string(),
     })
     .returns(a.string())
     .authorization((allow) => [allow.publicApiKey()])
@@ -31,4 +33,5 @@ export const data = defineData({
     },
   },
 });
+
 
