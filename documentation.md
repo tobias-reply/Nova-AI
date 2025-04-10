@@ -411,3 +411,6 @@ The following template can be used to for improved instructions:
 }
 
 To put it short I want to create an app that uses a modern frontend and the users webcam to automatically send the pictures to the AI model Nova-lite which will interpret what is shown in the pictures. Feel free to use the resources I sent you.
+
+- Design:
+Perfect everything works amazingly. Can you use a black background, rearrange them to create a pleasant design, put the webcam on the left side and the AI description on the right side, use Arial as a font and the following colours as a design template: #00C49B, #277D9A, #0EA49A, #5E3D9C

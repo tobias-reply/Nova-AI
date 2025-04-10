@@ -74,43 +74,50 @@ export default function App() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-6">
-      <div className="max-w-3xl w-full space-y-6">
-        <h1 className="text-3xl font-bold text-center mb-8">
-          AI Vision Analysis
-        </h1>
+    <main className="flex min-h-screen items-center justify-center p-6">
+      <div className="flex w-full max-w-7xl gap-8">
+        {/* Left side - Webcam */}
+        <div className="w-1/2">
+          <h1 className="text-3xl font-bold mb-8" style={{ color: '#00C49B' }}>
+            AI Vision Analysis
+          </h1>
 
-        <div className="relative w-full aspect-square max-w-lg mx-auto">
-          <Webcam
-            ref={webcamRef}
-            audio={false}
-            screenshotFormat="image/jpeg"
-            videoConstraints={WEBCAM_CONFIG}
-            className="rounded-lg shadow-lg w-full h-full object-cover"
-          />
+          <div className="relative aspect-square">
+            <Webcam
+              ref={webcamRef}
+              audio={false}
+              screenshotFormat="image/jpeg"
+              videoConstraints={WEBCAM_CONFIG}
+              className="rounded-lg shadow-lg w-full h-full object-cover"
+            />
+          </div>
+
+          <div className="flex justify-center mt-6">
+            <button
+              onClick={toggleCapture}
+              style={{
+                backgroundColor: isCapturing ? '#5E3D9C' : '#277D9A',
+                transition: 'background-color 0.3s'
+              }}
+              className="px-6 py-3 rounded-full font-semibold text-white hover:opacity-90"
+            >
+              {isCapturing ? "Stop Capturing" : "Start Capturing"}
+            </button>
+          </div>
         </div>
 
-        <div className="flex justify-center">
-          <button
-            onClick={toggleCapture}
-            className={`px-6 py-3 rounded-full font-semibold ${
-              isCapturing
-                ? "bg-red-500 hover:bg-red-600"
-                : "bg-blue-500 hover:bg-blue-600"
-            } text-white transition-colors`}
-          >
-            {isCapturing ? "Stop Capturing" : "Start Capturing"}
-          </button>
-        </div>
-
-        <div className="bg-gray-100 p-6 rounded-lg shadow mt-6">
-          <h2 className="text-xl font-semibold mb-3">AI Description:</h2>
-          <p className="text-gray-700 whitespace-pre-wrap">
-            {description || "Waiting for first capture..."}
-          </p>
+        {/* Right side - AI Description */}
+        <div className="w-1/2">
+          <div style={{ backgroundColor: '#0EA49A' }} className="p-6 rounded-lg shadow-lg h-full">
+            <h2 className="text-2xl font-semibold mb-4 text-white">AI Description:</h2>
+            <p className="text-white whitespace-pre-wrap">
+              {description || "Waiting for first capture..."}
+            </p>
+          </div>
         </div>
       </div>
     </main>
   );
 }
+
 
